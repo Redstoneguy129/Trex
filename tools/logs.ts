@@ -78,7 +78,7 @@ export async function packageTreeInfo(
  */
 export async function newVersion(): Promise<void> {
   const response = (await fetch(
-    "https://api.github.com/repos/crewdevio/Trex/releases/latest",
+    "https://api.github.com/repos/crewdevio/Trex/releases/latest"
   ).catch((_) => offLine())) as Response;
 
   const data = (await response.json()) as { tag_name: string };
@@ -89,7 +89,7 @@ export async function newVersion(): Promise<void> {
     ltr(clean(VERSION.VERSION)!, clean(data?.tag_name)!)
   ) {
     const versionMessage = white(
-      `Actual ${red(VERSION.VERSION)} -> new ${cyan(data?.tag_name ?? "?")}`,
+      `Actual ${red(VERSION.VERSION)} -> new ${cyan(data?.tag_name ?? "?")}`
     );
 
     const upgradeMessage = white(`use ${green("trex")} upgrade `);
@@ -105,7 +105,7 @@ export async function newVersion(): Promise<void> {
                    │                                     │
                    │          ${upgradeMessage}          │
                    │                                     │
-                   ╰─────────────────────────────────────╯`),
+                   ╰─────────────────────────────────────╯`)
     );
   }
 }
@@ -163,6 +163,8 @@ export const isLocalFile = (url: string) => {
     url.startsWith("../") ||
     url.startsWith("/") ||
     url.startsWith("file:") ||
-    url.startsWith("C:\\")
+    url.startsWith("C:\\") ||
+    url.startsWith(".\\") ||
+    url.startsWith("..\\")
   );
 };

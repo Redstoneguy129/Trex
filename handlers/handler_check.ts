@@ -11,6 +11,7 @@ import { getImportMap } from "../handlers/handle_files.ts";
 import { CommandNotFound } from "../utils/logs.ts";
 import type { importMap } from "../utils/types.ts";
 import { flags, keyWords } from "../utils/info.ts";
+import { isLocalFile } from "../tools/logs.ts";
 
 interface ToUpdate {
   pkg: string;
@@ -41,7 +42,7 @@ export async function checkDepsUpdates(): Promise<void> {
   for (const key in map?.imports) {
     const pkg = map.imports[key];
 
-    if (isDenoLand(pkg)) {
+    if (!isLocalFile(pkg) && isDenoLand(pkg)) {
       const { pathname } = toURL(pkg);
 
       if (pathname.startsWith("/std")) {
